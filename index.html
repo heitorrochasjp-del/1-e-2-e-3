@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Guias Práticos para Virar o Jogo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #E8E2D2;
+            --paper-2: #DED6C1;
+            --ink: #201C18;
+            --ink-soft: #514A40;
+
+            --c1: #263769;
+            --c1-deep: #182448;
+            --c1-soft: #DBE0EF;
+
+            --c2: #8A2222;
+            --c2-deep: #5E1717;
+            --c2-soft: #F1DAD5;
+
+            --c3: #3E2E82;
+            --c3-deep: #29205A;
+            --c3-soft: #E2DBF5;
+
+            --radius: 4px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        h1,
+        h2,
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            line-height: 1.05;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+        p {
+            margin: 0;
+        }
+        .eyebrow {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ---------- SPINE NAV ---------- */
+        .spine-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            transform: translateY(-100%);
+            transition: transform .4s ease;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.18);
+        }
+        .spine-nav.show {
+            transform: translateY(0);
+        }
+        .spine-nav a {
+            flex: 1;
+            padding: 12px 16px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #F2EFE7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: filter .2s ease;
+        }
+        .spine-nav a:hover {
+            filter: brightness(1.15);
+        }
+        .spine-nav a.n1 {
+            background: var(--c1);
+        }
+        .spine-nav a.n2 {
+            background: var(--c2);
+        }
+        .spine-nav a.n3 {
+            background: var(--c3);
+        }
+        .spine-nav a span.num {
+            opacity: .6;
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            padding: 96px 0 64px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .fade-slide-in {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeSlideIn .7s cubic-bezier(.22, .9, .32, 1) forwards;
+        }
+        @keyframes fadeSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero .eyebrow {
+            color: var(--ink-soft);
+            margin-bottom: 18px;
+            display: block;
+            animation-delay: .05s;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 5.2vw, 4rem);
+            max-width: 820px;
+            margin: 0 auto 22px;
+        }
+        .reveal-words .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(22px) rotateX(-25deg);
+            transform-origin: bottom;
+            animation: wordIn .65s cubic-bezier(.22, .9, .32, 1) forwards;
+            animation-play-state: paused;
+        }
+        .reveal-words.run .word {
+            animation-play-state: running;
+        }
+        @keyframes wordIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+        .word.em-word {
+            font-style: italic;
+            background: linear-gradient(180deg, transparent 62%, #D8CBAE 62%);
+        }
+
+        .hero p.sub {
+            max-width: 560px;
+            margin: 0 auto 48px;
+            font-size: 1.05rem;
+            color: var(--ink-soft);
+            line-height: 1.6;
+            animation-delay: .9s;
+        }
+
+        /* ---------- SHELF ---------- */
+        .shelf {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            max-width: 760px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            perspective: 1200px;
+        }
+
+        .book {
+            width: 180px;
+            border-radius: 2px 10px 10px 2px;
+            padding: 26px 18px;
+            color: #F2EFE7;
+            text-align: left;
+            position: relative;
+            box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.12);
+            opacity: 0;
+            transform: rotateY(-90deg) translateX(-20px);
+            transition: transform 0.3s cubic-bezier(.22, .9, .32, 1), box-shadow 0.3s ease;
+            will-change: transform;
+        }
+        .book.flip-in {
+            animation: flipIn .8s cubic-bezier(.22, .9, .32, 1) forwards;
+        }
+        @keyframes flipIn {
+            0% {
+                opacity: 0;
+                transform: rotateY(-90deg) translateX(-20px);
+            }
+            60% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: rotateY(0) translateX(0);
+            }
+        }
+        .book::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: rgba(0, 0, 0, 0.25);
+        }
+        .book.b1 {
+            background: linear-gradient(160deg, var(--c1), var(--c1-deep));
+        }
+        .book.b2 {
+            background: linear-gradient(160deg, var(--c2), var(--c2-deep));
+        }
+        .book.b3 {
+            background: linear-gradient(160deg, var(--c3), var(--c3-deep));
+        }
+        .book .tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.65;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .book .title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .book .go {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+        .book:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ---------- SECTIONS ---------- */
+        .book-section {
+            padding: 88px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .book-section.in {
+            opacity: 1;
+            transform: none;
+        }
+        .book-section.s1 {
+            background: var(--c1-soft);
+        }
+        .book-section.s2 {
+            background: var(--c2-soft);
+        }
+        .book-section.s3 {
+            background: var(--c3-soft);
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: end;
+            margin-bottom: 56px;
+        }
+        .section-head .eyebrow {
+            margin-bottom: 14px;
+            display: block;
+        }
+        .s1 .eyebrow,
+        .s1 .kicker {
+            color: var(--c1);
+        }
+        .s2 .eyebrow,
+        .s2 .kicker {
+            color: var(--c2);
+        }
+        .s3 .eyebrow,
+        .s3 .kicker {
+            color: var(--c3);
+        }
+        .section-head h2 {
+            font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+        }
+        .section-head .lede {
+            font-size: 1.02rem;
+            line-height: 1.65;
+            color: var(--ink-soft);
+            align-self: start;
+        }
+
+        /* ---------- STAGGER ---------- */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .6s cubic-bezier(.22, .9, .32, 1), transform .6s cubic-bezier(.22, .9, .32, 1);
+            transition-delay: var(--d, 0ms);
+        }
+        .stagger-item.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 56px;
+        }
+        .stat {
+            background: var(--paper);
+            padding: 22px 18px;
+            text-align: center;
+        }
+        .stat .num {
+            font-family: 'Fraunces', serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+        .stat .lbl {
+            font-size: 0.76rem;
+            color: var(--ink-soft);
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px;
+            margin-bottom: 52px;
+        }
+
+        .module-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .module-list li {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .module-list li:first-child {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .module-list .idx {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .module-list h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.98rem;
+            margin: 0 0 4px;
+        }
+        .module-list p {
+            font-size: 0.9rem;
+            color: var(--ink-soft);
+            line-height: 1.5;
+        }
+
+        .quote-card {
+            background: var(--ink);
+            color: #F2EFE7;
+            padding: 32px 28px;
+            border-radius: var(--radius);
+            align-self: start;
+        }
+        .quote-card p.q {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 1.12rem;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+        .quote-card .by {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .cta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 36px;
+            border-top: 2px solid rgba(0, 0, 0, 0.15);
+        }
+        .cta-row .price-note {
+            font-size: 0.92rem;
+            color: var(--ink-soft);
+            max-width: 360px;
+        }
+
+        /* ---------- BOTOES ---------- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 30px;
+            border-radius: 2px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #F2EFE7;
+            white-space: nowrap;
+            transition: transform .15s ease, box-shadow .15s ease;
+            background: var(--btn-bg, var(--c1));
+            will-change: transform;
+        }
+        .btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+        .btn .arrow {
+            transition: transform .15s ease;
+        }
+        .btn:hover .arrow {
+            transform: translateX(3px);
+        }
+        .btn.b1 {
+            --btn-bg: var(--c1);
+        }
+        .btn.b2 {
+            --btn-bg: var(--c2);
+        }
+        .btn.b3 {
+            --btn-bg: var(--c3);
+        }
+
+        /* ---------- CLOSING ---------- */
+        .closing {
+            padding: 96px 0 110px;
+            text-align: center;
+        }
+        .closing .eyebrow {
+            color: var(--ink-soft);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .closing h2 {
+            font-size: clamp(1.9rem, 4vw, 2.9rem);
+            max-width: 680px;
+            margin: 0 auto 40px;
+        }
+        .closing-shelf {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .closing-shelf a {
+            padding: 14px 22px;
+            border-radius: 2px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.76rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #F2EFE7;
+            transition: transform .15s ease, box-shadow .15s ease;
+            background: var(--btn-bg, var(--c1));
+        }
+        .closing-shelf a:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+        .closing-shelf a.k1 {
+            --btn-bg: var(--c1);
+        }
+        .closing-shelf a.k2 {
+            --btn-bg: var(--c2);
+        }
+        .closing-shelf a.k3 {
+            --btn-bg: var(--c3);
+        }
+
+        footer {
+            padding: 28px 0 44px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 760px) {
+            .section-head {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .stat-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .spine-nav a {
+                font-size: 0.62rem;
+                padding: 12px 8px;
+            }
+            .cta-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+            * {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="spine-nav" id="spineNav">
+        <a href="#autenticidade" class="n1"><span class="num">01</span> Autenticidade</a>
+        <a href="#financas" class="n2"><span class="num">02</span> Sair do Vermelho</a>
+        <a href="#carreira" class="n3"><span class="num">03</span> Primeiro Emprego em TI</a>
+    </nav>
+
+    <header class="hero">
+        <div class="wrap">
+            <span class="eyebrow fade-slide-in">3 guias · 1 objetivo: te tirar do lugar em que você está</span>
+            <h1 class="reveal-words" id="heroTitle">
+                <span class="word">Três</span> <span class="word">decisões</span> <span class="word">que</span>
+                <span class="word em-word">mudam&nbsp;o&nbsp;jogo</span> <span class="word">—</span>
+                <span class="word">na</span> <span class="word">sua</span> <span class="word">cabeça,</span>
+                <span class="word">no</span> <span class="word">seu</span> <span class="word">bolso</span>
+                <span class="word">e</span> <span class="word">na</span> <span class="word">sua</span> <span class="word">carreira.</span>
+            </h1>
+            <p class="sub fade-slide-in">Três guias práticos e diretos, escritos para quem quer parar de adiar. Escolha o seu, ou leve os três e ataque a vida por todos os lados de uma vez.</p>
+            <div class="shelf" id="shelf">
+                <a href="#autenticidade" class="book b1">
+                    <span class="tag">Guia 01</span>
+                    <span class="title">Como Ser Autêntico</span>
+                    <span class="go">Ver o guia ↓</span>
+                </a>
+                <a href="#financas" class="book b2">
+                    <span class="tag">Guia 02</span>
+                    <span class="title">Como Sair do Vermelho</span>
+                    <span class="go">Ver o guia ↓</span>
+                </a>
+                <a href="#carreira" class="book b3">
+                    <span class="tag">Guia 03</span>
+                    <span class="title">Primeiro Emprego em TI</span>
+                    <span class="go">Ver o guia ↓</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seção 1 -->
+    <section class="book-section s1" id="autenticidade">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Guia 01 — Autoconhecimento</span>
+                    <h2>O Guia para Encontrar e Valorizar Sua Verdadeira Essência</h2>
+                </div>
+                <p class="lede">Você já se sentiu exausto tentando ser quem os outros esperam que você seja? Esse guia existe para te tirar da máscara e te devolver a versão sua que ficou guardada embaixo das expectativas de todo mundo.</p>
+            </div>
+            <div class="content-grid">
+                <ul class="module-list" data-stagger>
+                    <li class="stagger-item">
+                        <span class="idx kicker">01</span>
+                        <div>
+                            <h4>Autoconhecimento</h4>
+                            <p>Exercícios de reflexão guiada para mapear seus valores, suas paixões e os pontos fortes que ficaram escondidos sob camadas de expectativa alheia.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">02</span>
+                        <div>
+                            <h4>Quebrando Padrões</h4>
+                            <p>Identifique crenças que nunca foram suas — herdadas da família, da escola ou da cultura — e aprenda a substituí-las por narrativas que te movem para frente.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">03</span>
+                        <div>
+                            <h4>Comunicação Autêntica</h4>
+                            <p>Diga o que você pensa e sente com clareza e respeito, sem medo de ser julgado — e sem precisar se explicar o tempo todo.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">04</span>
+                        <div>
+                            <h4>Propósito e Ação</h4>
+                            <p>Alinhe suas escolhas do dia a dia com o que você realmente valoriza, transformando autoconhecimento em uma vida diferente na prática.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="quote-card stagger-item">
+                    <p class="q">"Esse curso me ajudou a pedir demissão e abrir meu próprio negócio — algo que sempre tive medo de fazer. Hoje me sinto mais leve, mais eu mesma e mais realizada do que nunca."</p>
+                    <span class="by">— Mariana, 34 anos</span>
+                </div>
+            </div>
+            <div class="cta-row">
+                <p class="price-note">4 módulos práticos · conteúdo 100% online, no seu ritmo · acesso vitalício.</p>
+                <a class="btn b1" href="https://pay.kiwify.com.br/RnNTN2A" target="_blank" rel="noopener">Adquira o seu <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 2 -->
+    <section class="book-section s2" id="financas">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Guia 02 — Vida Financeira</span>
+                    <h2>Como Sair do Vermelho em Pouco Tempo</h2>
+                </div>
+                <p class="lede">O endividamento atinge milhões de brasileiros todos os dias — e a maioria nunca teve acesso a uma orientação financeira clara e prática. Este não é um curso sobre ficar rico rápido. É um método real, passo a passo, para quem tem pouco tempo e pouco dinheiro sobrando.</p>
+            </div>
+            <div class="stat-row" data-stagger>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="70" data-suffix="M+">0</div>
+                    <div class="lbl">brasileiros inadimplentes, segundo a CNC</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="77" data-suffix="%">0</div>
+                    <div class="lbl">das famílias brasileiras têm algum tipo de dívida ativa</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="3" data-suffix="º">0</div>
+                    <div class="lbl">o cartão de crédito é a maior vilã do orçamento familiar</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-prefix="R$" data-target="5.4" data-decimals="1" data-suffix="K">R$0</div>
+                    <div class="lbl">é o quanto R$15/dia em delivery custa por ano</div>
+                </div>
+            </div>
+            <div class="content-grid">
+                <ul class="module-list" data-stagger>
+                    <li class="stagger-item">
+                        <span class="idx kicker">01</span>
+                        <div>
+                            <h4>Diagnóstico Financeiro</h4>
+                            <p>Mapeie todas as suas dívidas, credores, taxas e prazos — e descubra exatamente qual é o seu déficit mensal real.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">02</span>
+                        <div>
+                            <h4>Corte de Gastos</h4>
+                            <p>Encontre os gastos invisíveis — assinaturas esquecidas, delivery, compras por impulso — sem sacrificar sua qualidade de vida.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">03</span>
+                        <div>
+                            <h4>Estratégia de Pagamento</h4>
+                            <p>A ordem certa para quitar suas contas, começando pela dívida mais cara do Brasil: o cartão de crédito.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">04</span>
+                        <div>
+                            <h4>Aumento de Renda + Plano de 30 Dias</h4>
+                            <p>Transforme suas habilidades em renda extra e siga um cronograma de 30 dias com metas diárias e semanais.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="quote-card stagger-item">
+                    <p class="q">"Eu estava com R$ 15 mil em dívidas no cartão e achava que nunca ia sair dessa. Apliquei o método em 3 meses e hoje estou zerado e com uma reserva. Esse curso mudou minha vida."</p>
+                    <span class="by">— João M., 29 anos, São Paulo</span>
+                </div>
+            </div>
+            <div class="cta-row">
+                <p class="price-note">5 passos práticos e progressivos · planilhas e cronograma incluídos · acesso vitalício.</p>
+                <a class="btn b2" href="https://pay.kiwify.com.br/K04fSS5" target="_blank" rel="noopener">Adquira o seu <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 3 -->
+    <section class="book-section s3" id="carreira">
+        <div class="wrap">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Guia 03 — Carreira Tech · Edição 2026</span>
+                    <h2>O Roteiro Completo para Conseguir uma Vaga Júnior sem Experiência</h2>
+                </div>
+                <p class="lede">A tecnologia continua sendo o setor que mais cresce no Brasil, e boa parte das empresas contrata júnior sem experiência formal comprovada. Este guia mostra exatamente como escolher sua área, montar um portfólio, ajustar currículo e LinkedIn, e chegar preparado nas entrevistas.</p>
+            </div>
+            <div class="stat-row" data-stagger>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="300" data-suffix="K+">0</div>
+                    <div class="lbl">vagas estimadas em TI no Brasil em 2026</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="70" data-suffix="%">0</div>
+                    <div class="lbl">das empresas contratam júnior sem experiência formal</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-prefix="R$" data-target="3" data-suffix="K">R$0</div>
+                    <div class="lbl">salário médio inicial para vaga júnior em TI</div>
+                </div>
+                <div class="stat stagger-item">
+                    <div class="num kicker" data-target="3" data-suffix="x">0</div>
+                    <div class="lbl">o setor cresce mais rápido que a média do mercado</div>
+                </div>
+            </div>
+            <div class="content-grid">
+                <ul class="module-list" data-stagger>
+                    <li class="stagger-item">
+                        <span class="idx kicker">01</span>
+                        <div>
+                            <h4>Escolha sua área</h4>
+                            <p>Front-end, back-end, dados, cloud ou QA — descubra qual caminho combina com o seu perfil e comece com foco.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">02</span>
+                        <div>
+                            <h4>Portfólio que impressiona</h4>
+                            <p>Monte de 3 a 5 projetos reais, com README completo e link publicado — o fator que mais pesa na triagem de recrutadores.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">03</span>
+                        <div>
+                            <h4>Currículo, LinkedIn e networking</h4>
+                            <p>Crie documentos profissionais mesmo sem experiência formal, e aprenda onde estão as vagas que os iniciantes não conhecem.</p>
+                        </div>
+                    </li>
+                    <li class="stagger-item">
+                        <span class="idx kicker">04</span>
+                        <div>
+                            <h4>Plano de 30 dias para a primeira vaga</h4>
+                            <p>Um cronograma semana a semana — fundação, portfólio, visibilidade e entrevistas — para quem tem só 2 a 3 horas por dia.</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="quote-card stagger-item">
+                    <p class="q">"Você não precisa saber tudo para começar — precisa começar para aprender tudo."</p>
+                    <span class="by">— Trecho do guia</span>
+                </div>
+            </div>
+            <div class="cta-row">
+                <p class="price-note">Edição 2026 · checklists práticos e recursos gratuitos incluídos · acesso vitalício.</p>
+                <a class="btn b3" href="https://pay.kiwify.com.br/pjBf59e" target="_blank" rel="noopener">Adquira o seu <span class="arrow">→</span></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="closing">
+        <div class="wrap">
+            <span class="eyebrow">Qual desses três te descreve hoje?</span>
+            <h2>Cada guia resolve um problema real. Comece pelo que está te travando agora.</h2>
+            <div class="closing-shelf">
+                <a class="k1" href="https://pay.kiwify.com.br/RnNTN2A" target="_blank" rel="noopener">Autenticidade →</a>
+                <a class="k2" href="https://pay.kiwify.com.br/K04fSS5" target="_blank" rel="noopener">Sair do Vermelho →</a>
+                <a class="k3" href="https://pay.kiwify.com.br/pjBf59e" target="_blank" rel="noopener">Vaga em TI →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">Conteúdo digital · acesso imediato após a confirmação do pagamento.</div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // 1. REVELAÇÃO DO TÍTULO E LIVROS (Hero)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Título
+            document.getElementById('heroTitle').classList.add('run');
+
+            // Livros: flip em cascata
+            const books = document.querySelectorAll('.shelf .book');
+            books.forEach((book, i) => {
+                setTimeout(() => {
+                    book.classList.add('flip-in');
+                }, 1000 + i * 180);
+            });
+        });
+
+        // ============================================================
+        // 2. REVELAÇÃO DE SEÇÕES E STAGGER (Scroll)
+        // ============================================================
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const section = entry.target;
+                section.classList.add('in');
+
+                // Ativa stagger items com delay progressivo
+                section.querySelectorAll('.stagger-item').forEach((item, i) => {
+                    item.style.setProperty('--d', `${i * 90}ms`);
+                    item.classList.add('in');
+                });
+
+                sectionObserver.unobserve(section);
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.book-section').forEach(s => sectionObserver.observe(s));
+
+        // ============================================================
+        // 3. CONTADORES ANIMADOS (Estatísticas)
+        // ============================================================
+        function formatNumber(value, decimals) {
+            return value.toLocaleString('pt-BR', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        }
+
+        function animateCounter(el) {
+            const target = parseFloat(el.dataset.target);
+            const decimals = parseInt(el.dataset.decimals || '0', 10);
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            const duration = 1400;
+            const start = performance.now();
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                el.textContent = `${prefix}${formatNumber(target, decimals)}${suffix}`;
+                return;
+            }
+
+            function easeOutExpo(t) {
+                return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+            }
+
+            function tick(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = easeOutExpo(progress);
+                const current = target * eased;
+                el.textContent = `${prefix}${formatNumber(current, decimals)}${suffix}`;
+                if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        }
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.stat .num[data-target]').forEach(el => counterObserver.observe(el));
+
+        // ============================================================
+        // 4. NAV FIXA (mostra/esconde no scroll)
+        // ============================================================
+        const spineNav = document.getElementById('spineNav');
+        const hero = document.querySelector('.hero');
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                spineNav.classList.toggle('show', !entry.isIntersecting);
+            });
+        }, { threshold: 0 });
+        navObserver.observe(hero);
+    </script>
+</body>
+</html>
